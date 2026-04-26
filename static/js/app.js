@@ -553,53 +553,39 @@ function brainSubmit() {
   const correct = userNum === q.answer;
 
   if (correct) {
-    // ✅ Correct — flash green, go to next question or finish
     STATE.correct++;
-    showFeedback(true, 'brain-feedback');
-    setTimeout(() => {
-      STATE.currentQ++;
-      if (STATE.currentQ >= STATE.questions.length) finishGame();
-      else { startChain(); }
-    }, 900);
   } else {
-    // ❌ Wrong — show Incorrect! screen (no retry, game ends for this round)
     STATE.wrong++;
     STATE.wrongQuestions.add(STATE.currentQ);
     STATE.penaltyMs += STATE.PENALTY_MS;
-    showFeedback(false, 'brain-feedback');
-    setTimeout(() => {
-      // Show Incorrect screen
-      const diffLabel = { low:'LOW PRESSURE', medium:'MEDIUM PRESSURE', high:'HIGH PRESSURE' };
-      const dl = document.getElementById('bc-incorrect-diff');
-      if (dl) dl.textContent = diffLabel[STATE.brainDiff] || 'LOW PRESSURE';
-      showScreen('screen-bc-incorrect');
-    }, 900);
   }
+
+  // Show tick/cross feedback, then ALWAYS go to the review screen
+  showFeedback(correct, 'brain-feedback');
+  setTimeout(() => showBrainReview(correct), 900);
 }
 
-function reviewBrainCruncher() {
+/* Build & show the step-by-step review for the current question.
+   Called after every answer — correct or wrong. */
+function showBrainReview(wasCorrect) {
   const q = STATE.questions[STATE.currentQ];
   if (!q) { goHome(); return; }
 
   const opLabel = { '+': 'Add', '-': 'Subtract', '×': 'Multiply by', '÷': 'Divide by' };
-
-  const list = document.getElementById('bc-review-list');
+  const list    = document.getElementById('bc-review-list');
   if (!list) { goHome(); return; }
 
-  // Build review rows
-  const rows = [];
-
-  // Row 1 – Starting Number
-  rows.push({ text: 'Starting Number', value: q.start, isFinal: false, isStart: true });
-
-  // One row per step
-  q.steps.forEach(s => {
-    const label = opLabel[s.op] || s.op;
-    rows.push({ text: `${label} ${s.num}`, value: s.running_total, isFinal: false, isStart: false });
-  });
-
-  // Final row
-  rows.push({ text: 'Final Answer', value: q.answer, isFinal: true, isStart: false });
+  // ── Build step rows ──
+  const rows = [
+    { text: 'Starting Number', value: q.start, isFinal: false, isStart: true },
+    ...q.steps.map(s => ({
+      text: `${opLabel[s.op] || s.op} ${s.num}`,
+      value: s.running_total,
+      isFinal: false,
+      isStart: false,
+    })),
+    { text: 'Final Answer', value: q.answer, isFinal: true, isStart: false },
+  ];
 
   list.innerHTML = rows.map(r => `
     <div class="bc-review-row ${r.isFinal ? 'bc-review-final' : ''} ${r.isStart ? 'bc-review-start' : ''}">
@@ -609,7 +595,40 @@ function reviewBrainCruncher() {
     </div>
   `).join('');
 
+  // ── Result badge (✓ Correct / ✗ Wrong) ──
+  const badge = document.getElementById('bc-review-result');
+  if (badge) {
+    badge.textContent = wasCorrect ? '✓ Correct!' : '✗ Wrong!';
+    badge.className   = `bc-review-result ${wasCorrect ? 'correct' : 'wrong'}`;
+  }
+
+  // ── Progress counter ──
+  const prog = document.getElementById('bc-review-progress');
+  const total = STATE.questions.length;
+  const idx   = STATE.currentQ + 1;
+  if (prog) prog.textContent = `${idx} / ${total}`;
+
+  // ── Next button label: NEXT QUESTION vs FINISH ──
+  const nextBtn = document.getElementById('bc-review-next-btn');
+  const isLast  = STATE.currentQ >= STATE.questions.length - 1;
+  if (nextBtn) nextBtn.textContent = isLast ? 'FINISH' : 'NEXT QUESTION';
+
   showScreen('screen-bc-review');
+}
+
+/* Called when user taps NEXT QUESTION or FINISH on the review screen */
+function continueFromBrainReview() {
+  STATE.currentQ++;
+  if (STATE.currentQ >= STATE.questions.length) {
+    finishGame();
+  } else {
+    startChain();
+  }
+}
+
+/* Legacy hook: REVIEW button on old Incorrect screen → same review screen */
+function reviewBrainCruncher() {
+  showBrainReview(false);
 }
 
 /* ════════════════════════════════════════════════

@@ -1049,3 +1049,31 @@ body {
   gap: 12px;
   padding: 12px 16px 20px;
 }
+
+/* ── Result badge shown at top of review screen ── */
+.bc-review-result {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  padding: 10px 16px 4px;
+  letter-spacing: 1px;
+}
+.bc-review-result.correct { color: #2d9e5e; }
+.bc-review-result.wrong   { color: #d93030; }
+
+/* ── Progress counter (right-aligned in header) ── */
+.bc-review-progress {
+  margin-left: auto;
+  font-size: .85rem;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 1px;
+}
+
+/* ── NEXT QUESTION button stands out ── */
+.bc-next-btn {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+.bc-next-btn:hover  { background: #333; }

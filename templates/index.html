@@ -339,7 +339,12 @@
   <div class="bc-review-header">
     <button class="back-btn" onclick="goHome()">←</button>
     <div class="bc-review-title">Solution Review</div>
+    <div class="bc-review-progress" id="bc-review-progress">1 / 20</div>
   </div>
+
+  <!-- Result badge: ✓ Correct! or ✗ Wrong! -->
+  <div class="bc-review-result" id="bc-review-result"></div>
+
   <div class="bc-review-scroll">
     <div class="bc-review-card">
       <div class="bc-review-list" id="bc-review-list">
@@ -347,8 +352,9 @@
       </div>
     </div>
   </div>
+
   <div class="bc-review-footer">
-    <button class="bc-action-btn" onclick="startBrainGame()">PLAY AGAIN</button>
+    <button id="bc-review-next-btn" class="bc-action-btn bc-next-btn" onclick="continueFromBrainReview()">NEXT QUESTION</button>
     <button class="bc-action-btn" onclick="goHome()">HOME</button>
   </div>
 </div>
