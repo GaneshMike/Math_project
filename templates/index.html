@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Math Workout — Train Your Brain Daily</title>
+<meta name="description" content="Math Workout: a fun mental math game with addition, subtraction, multiplication, division, times tables and more."/>
+<link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-shell">
+
+<!-- ════════════ HOME ════════════ -->
+<!-- ════════════ COUNTDOWN ════════════ -->
+<div class="screen" id="screen-countdown">
+  <div class="countdown-wrap">
+    <div class="countdown-card" id="countdown-card">
+      <div class="countdown-game-title" id="countdown-game-title">Get Ready</div>
+      <div class="countdown-game-sub" id="countdown-game-sub"></div>
+      <div class="countdown-number pop" id="countdown-num">3</div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-home">
+  <div class="home-header">
+    <h1>MATH WORKOUT</h1>
+    <p class="subtitle">Exercise and train your brain daily</p>
+    <p class="last-played" id="last-played-text">Ready to play!</p>
+    <button class="settings-btn" onclick="openSettings()" aria-label="Settings">⚙️</button>
+  </div>
+
+  <!-- Brain Age Check -->
+  <div class="card card-btn brain-age-card" onclick="openSubMenu('brain_age')">
+    <div class="icon-box">🧠</div>
+    <div class="info">
+      <h3>Brain Age Check</h3>
+      <p>How fast is your brain? Find out!</p>
+      <span class="ready">Ready to check!</span>
+    </div>
+    <span class="chevron">›</span>
+  </div>
+
+  <!-- 2-col game grid -->
+  <div class="game-grid">
+    <div class="game-tile" onclick="openSubMenu('add_sub')">
+      <div class="tile-icon pink">➕</div>
+      <h3>Add &amp; Subtract</h3>
+      <p>Classic mixed +/− questions.</p>
+    </div>
+    <div class="game-tile" onclick="openSubMenu('mul_div')">
+      <div class="tile-icon green">✖️</div>
+      <h3>Multiply &amp; Divide</h3>
+      <p>Classic mixed ×/÷ questions.</p>
+    </div>
+    <div class="game-tile" onclick="openSubMenu('feeling_clever')">
+      <div class="tile-icon pink">💡</div>
+      <h3>I'm Feeling Clever</h3>
+      <p>A random mix of all operations.</p>
+    </div>
+    <div class="game-tile" onclick="openSubMenu('times_table')">
+      <div class="tile-icon green">📊</div>
+      <h3>Times Table Master</h3>
+      <p>Practice your times tables.</p>
+    </div>
+    <div class="game-tile" onclick="openSubMenu('brain_cruncher')">
+      <div class="tile-icon pink">⚙️</div>
+      <h3>The Brain Cruncher</h3>
+      <p>Multi-step calculation challenge.</p>
+    </div>
+    <div class="game-tile" onclick="openSubMenu('mental_math')">
+      <div class="tile-icon green">🎧</div>
+      <h3>Mental Math Master</h3>
+      <p>Listen to questions and solve.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ ADD/SUB SUB-MENU ════════════ -->
+<div class="screen" id="screen-addsub">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="sub-menu-card">
+    <div class="game-title">ADDITION &amp; SUBTRACTION</div>
+    <div class="meta">
+      <span id="addsub-diff-label">EASY</span> · <span id="addsub-count-label">20 QUESTIONS</span>
+    </div>
+    <div class="big-number">1</div>
+  </div>
+  <div class="diff-selector">
+    <button class="diff-btn active" onclick="setDiff('easy','addsub')">EASY</button>
+    <button class="diff-btn" onclick="setDiff('medium','addsub')">MEDIUM</button>
+    <button class="diff-btn" onclick="setDiff('hard','addsub')">HARD</button>
+  </div>
+  <button class="start-btn" onclick="startStandardGame('add_sub')">START WORKOUT</button>
+</div>
+
+<!-- ════════════ MUL/DIV SUB-MENU ════════════ -->
+<div class="screen" id="screen-muldiv">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="sub-menu-card">
+    <div class="game-title">MULTIPLICATION &amp; DIVISION</div>
+    <div class="meta">
+      <span id="muldiv-diff-label">EASY</span> · <span id="muldiv-count-label">20 QUESTIONS</span>
+    </div>
+    <div class="big-number">1</div>
+  </div>
+  <div class="diff-selector">
+    <button class="diff-btn active" onclick="setDiff('easy','muldiv')">EASY</button>
+    <button class="diff-btn" onclick="setDiff('medium','muldiv')">MEDIUM</button>
+    <button class="diff-btn" onclick="setDiff('hard','muldiv')">HARD</button>
+  </div>
+  <button class="start-btn" onclick="startStandardGame('mul_div')">START WORKOUT</button>
+</div>
+
+<!-- ════════════ FEELING CLEVER SUB-MENU ════════════ -->
+<div class="screen" id="screen-feeling">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="sub-menu-card">
+    <div class="game-title">I'M FEELING CLEVER</div>
+    <div class="meta">EASY · 20 QUESTIONS</div>
+    <div class="big-number">?</div>
+  </div>
+  <div class="diff-selector">
+    <button class="diff-btn active" onclick="setDiff('easy','feeling')">EASY</button>
+    <button class="diff-btn" onclick="setDiff('medium','feeling')">MEDIUM</button>
+    <button class="diff-btn" onclick="setDiff('hard','feeling')">HARD</button>
+  </div>
+  <button class="start-btn" onclick="startStandardGame('feeling_clever')">START WORKOUT</button>
+</div>
+
+<!-- ════════════ TIMES TABLE SUB-MENU ════════════ -->
+<div class="screen" id="screen-times">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="card">
+    <div class="game-title" style="font-family:var(--font-display);font-size:1.6rem;text-align:center">TIMES TABLE MASTER</div>
+    <p style="text-align:center;color:#777;font-size:.85rem;margin-top:6px">Choose a table to practice</p>
+  </div>
+  <div class="table-grid">
+    <button class="table-btn" data-table="2"  onclick="selectTable(2)">2</button>
+    <button class="table-btn" data-table="3"  onclick="selectTable(3)">3</button>
+    <button class="table-btn" data-table="4"  onclick="selectTable(4)">4</button>
+    <button class="table-btn" data-table="5"  onclick="selectTable(5)">5</button>
+    <button class="table-btn" data-table="6"  onclick="selectTable(6)">6</button>
+    <button class="table-btn" data-table="7"  onclick="selectTable(7)">7</button>
+    <button class="table-btn" data-table="8"  onclick="selectTable(8)">8</button>
+    <button class="table-btn" data-table="9"  onclick="selectTable(9)">9</button>
+    <button class="table-btn" data-table="10" onclick="selectTable(10)">10</button>
+    <button class="table-btn" data-table="11" onclick="selectTable(11)">11</button>
+    <button class="table-btn" data-table="12" onclick="selectTable(12)">12</button>
+  </div>
+  <button class="start-btn mt-auto" onclick="startTimesGame()">START WORKOUT</button>
+</div>
+
+<!-- ════════════ BRAIN CRUNCHER SUB-MENU ════════════ -->
+<div class="screen" id="screen-brain">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="card" style="text-align:center">
+    <div class="game-title" style="font-family:var(--font-display);font-size:1.8rem">THE BRAIN CRUNCHER</div>
+    <p style="color:#777;font-size:.85rem;margin-top:6px">Multi-step calculations under pressure</p>
+  </div>
+  <div class="card">
+    <label style="font-weight:800;font-size:.78rem;letter-spacing:2px;color:#888;display:block;margin-bottom:12px">SELECT DIFFICULTY</label>
+    <div class="diff-selector" style="grid-template-columns:repeat(3,1fr)">
+      <button class="diff-btn active" data-bdiff="low"    onclick="selectBrainDiff('low')">LOW<br>PRESSURE</button>
+      <button class="diff-btn locked" data-bdiff="medium" onclick="selectBrainDiff('medium')">MED<br>LOCKED</button>
+      <button class="diff-btn locked" data-bdiff="high"   onclick="selectBrainDiff('high')">HIGH<br>LOCKED</button>
+    </div>
+  </div>
+  <div class="card">
+    <p style="color:#555;font-size:.88rem;text-align:center;line-height:1.5">Take it steady. Solve multi-step calculations at a relaxed pace to build confidence.</p>
+  </div>
+  <button class="start-btn" onclick="startBrainGame()">START WORKOUT</button>
+</div>
+
+<!-- ════════════ MENTAL MATH SUB-MENU ════════════ -->
+<div class="screen" id="screen-mental">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="card" style="text-align:center">
+    <div class="game-title" style="font-family:var(--font-display);font-size:1.8rem">MENTAL MATH MASTER</div>
+    <p style="color:#777;font-size:.85rem;margin-top:6px">Listen to questions and solve</p>
+  </div>
+  <div class="card">
+    <p style="color:#555;font-size:.88rem;text-align:center;line-height:1.5">🎧 Questions are read aloud. Type your answer using the keypad below.</p>
+  </div>
+  <div class="diff-selector">
+    <button class="diff-btn active" onclick="setDiff('easy','mental')">EASY</button>
+    <button class="diff-btn" onclick="setDiff('medium','mental')">MEDIUM</button>
+    <button class="diff-btn" onclick="setDiff('hard','mental')">HARD</button>
+  </div>
+  <button class="start-btn mt-auto" onclick="startMentalGame()">START WORKOUT</button>
+</div>
+
+<!-- ════════════ BRAIN AGE CHECK SUB-MENU ════════════ -->
+<div class="screen" id="screen-brainAge">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="sub-menu-card" style="flex:1">
+    <div class="game-title">BRAIN AGE CHECK</div>
+    <p style="color:#777;margin-top:8px">Answer 10 quick mixed questions as fast as you can. We'll calculate your mental age!</p>
+    <div style="font-size:4rem;margin-top:24px">🧠</div>
+  </div>
+  <button class="start-btn" onclick="startBrainAge()">START CHECK</button>
+</div>
+
+<!-- ════════════ GAME PLAY (Standard) ════════════ -->
+<div class="screen" id="screen-game">
+  <div class="game-header">
+    <span class="progress-label" id="progress-label">1 / 20</span>
+    <span class="timer-label" id="timer-display">00:00.000</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progress-bar" style="width:5%"></div>
+  </div>
+  <!-- penalty flash -->
+  <div id="penalty-flash" class="penalty-flash hidden">+5s PENALTY!</div>
+  <div class="question-card">
+    <div class="question-text" id="question-text">9 + 7</div>
+    <div class="answer-display" id="answer-display">?</div>
+    <div class="feedback-overlay" id="feedback-overlay"></div>
+  </div>
+  <div class="numpad-wrap">
+    <div class="numpad">
+      <button class="num-btn" onclick="numPress('1')">1</button>
+      <button class="num-btn" onclick="numPress('2')">2</button>
+      <button class="num-btn" onclick="numPress('3')">3</button>
+      <button class="num-btn" onclick="numPress('4')">4</button>
+      <button class="num-btn" onclick="numPress('5')">5</button>
+      <button class="num-btn" onclick="numPress('6')">6</button>
+      <button class="num-btn" onclick="numPress('7')">7</button>
+      <button class="num-btn" onclick="numPress('8')">8</button>
+      <button class="num-btn" onclick="numPress('9')">9</button>
+      <button class="num-btn del" onclick="numPress('DEL')">DEL</button>
+      <button class="num-btn" onclick="numPress('0')">0</button>
+      <button class="num-btn clear" onclick="numPress('C')">C</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ MENTAL MATH PLAY ════════════ -->
+<div class="screen" id="screen-game-mental">
+  <div class="game-header">
+    <span class="progress-label" id="mental-progress-label">1 / 20</span>
+    <span class="timer-label" id="mental-timer-display">00:00.000</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="mental-progress-bar" style="width:5%"></div>
+  </div>
+  <div id="mental-penalty-flash" class="penalty-flash hidden">+5s PENALTY!</div>
+  <div class="listen-card">
+    <div class="listen-title">Listen</div>
+    <div class="listen-icon">🎧</div>
+    <div class="answer-display" id="mental-answer-display" style="font-size:2rem;margin-top:12px">?</div>
+    <button class="replay-audio-btn" onclick="replayAudio()">🔁 Replay</button>
+    <div class="feedback-overlay" id="mental-feedback"></div>
+  </div>
+  <div class="numpad-wrap">
+    <div class="numpad">
+      <button class="num-btn" onclick="mentalNumPress('1')">1</button>
+      <button class="num-btn" onclick="mentalNumPress('2')">2</button>
+      <button class="num-btn" onclick="mentalNumPress('3')">3</button>
+      <button class="num-btn" onclick="mentalNumPress('4')">4</button>
+      <button class="num-btn" onclick="mentalNumPress('5')">5</button>
+      <button class="num-btn" onclick="mentalNumPress('6')">6</button>
+      <button class="num-btn" onclick="mentalNumPress('7')">7</button>
+      <button class="num-btn" onclick="mentalNumPress('8')">8</button>
+      <button class="num-btn" onclick="mentalNumPress('9')">9</button>
+      <button class="num-btn del" onclick="mentalNumPress('DEL')">DEL</button>
+      <button class="num-btn" onclick="mentalNumPress('0')">0</button>
+      <button class="num-btn clear" onclick="mentalNumPress('C')">C</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ BRAIN CRUNCHER: STEP REVEAL ══════════ -->
+<div class="screen bc-step-screen" id="screen-chain">
+  <div class="bc-step-instruction" id="bc-step-text">Start with<br><strong id="bc-step-num">5</strong></div>
+  <div class="bc-ring-wrap">
+    <svg class="bc-ring-svg" viewBox="0 0 220 220">
+      <defs>
+        <linearGradient id="bcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#a855f7"/>
+          <stop offset="50%" stop-color="#6366f1"/>
+          <stop offset="100%" stop-color="#38bdf8"/>
+        </linearGradient>
+      </defs>
+      <circle class="bc-ring-bg" cx="110" cy="110" r="95"/>
+      <circle class="bc-ring-arc" id="bc-ring-arc" cx="110" cy="110" r="95"
+        stroke="url(#bcGrad)" stroke-dasharray="597" stroke-dashoffset="0"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════ BRAIN CRUNCHER: ANSWER ══════════ -->
+<div class="screen" id="screen-game-brain">
+  <div class="bc-progress-bar-wrap">
+    <div class="bc-progress-bar" id="bc-progress-bar"></div>
+  </div>
+  <div class="bc-answer-card" id="bc-answer-card">
+    <div class="bc-answer-label" id="bc-answer-label">What is the answer?</div>
+    <div class="bc-answer-display" id="brain-answer-display">?</div>
+    <div class="feedback-overlay" id="brain-feedback"></div>
+  </div>
+  <div class="numpad-wrap">
+    <div class="numpad">
+      <button class="num-btn" onclick="brainNumPress('1')">1</button>
+      <button class="num-btn" onclick="brainNumPress('2')">2</button>
+      <button class="num-btn" onclick="brainNumPress('3')">3</button>
+      <button class="num-btn" onclick="brainNumPress('4')">4</button>
+      <button class="num-btn" onclick="brainNumPress('5')">5</button>
+      <button class="num-btn" onclick="brainNumPress('6')">6</button>
+      <button class="num-btn" onclick="brainNumPress('7')">7</button>
+      <button class="num-btn" onclick="brainNumPress('8')">8</button>
+      <button class="num-btn" onclick="brainNumPress('9')">9</button>
+      <button class="num-btn del" onclick="brainNumPress('.')">.</button>
+      <button class="num-btn" onclick="brainNumPress('0')">0</button>
+      <button class="num-btn clear" onclick="brainNumPress('C')">C</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ BRAIN CRUNCHER: INCORRECT SCREEN ══════════ -->
+<div class="screen bc-incorrect-screen" id="screen-bc-incorrect">
+  <div class="bc-incorrect-card">
+    <div class="bc-incorrect-header">
+      <strong>THE BRAIN CRUNCHER</strong>
+      <span id="bc-incorrect-diff">LOW PRESSURE</span>
+    </div>
+    <hr class="bc-divider"/>
+    <div class="bc-incorrect-title">Incorrect!</div>
+    <div class="bc-incorrect-quote">Math is like any other activity. The more you do it, the better you will get.</div>
+  </div>
+  <div class="bc-incorrect-actions">
+    <button class="bc-action-btn" onclick="reviewBrainCruncher()">REVIEW</button>
+    <button class="bc-action-btn" onclick="goHome()">HOME</button>
+  </div>
+</div>
+
+<!-- ════════════ RESULTS ════════════ -->
+<div class="screen" id="screen-result">
+
+  <!-- Emoji + title banner -->
+  <div class="card" style="text-align:center;padding:22px 18px">
+    <div class="result-emoji" id="result-emoji">⭐</div>
+    <div class="result-title" id="result-title">Excellent!</div>
+  </div>
+
+  <!-- Penalty card (matches screenshot) -->
+  <div class="result-penalty-card" id="penalty-block">
+    <div class="rp-row">
+      <div class="rp-label">WRONG ATTEMPTS</div>
+      <div class="rp-value red" id="result-wrong-count">0</div>
+    </div>
+    <div class="rp-row">
+      <div class="rp-label">TIME PENALTY</div>
+      <div class="rp-value red" id="result-penalty">+ 0.000s</div>
+    </div>
+    <div class="rp-divider"></div>
+    <div class="rp-row">
+      <div class="rp-label bold">FINAL TIME</div>
+      <div class="rp-final-time" id="result-final-time">00:00.000</div>
+    </div>
+  </div>
+
+  <!-- Brain age (only shown for brain age check) -->
+  <div id="brain-age-row" class="hidden card" style="text-align:center;padding:16px">
+    <div style="color:#888;font-size:.85rem">Your estimated brain age:</div>
+    <div class="brain-age-result" id="brain-age-value">28</div>
+  </div>
+
+  <!-- 4-stat mini grid -->
+  <div class="result-stats">
+    <div class="stat-box green">
+      <div class="value" id="result-correct-stat">0</div>
+      <div class="label">Correct</div>
+    </div>
+    <div class="stat-box">
+      <div class="value" id="result-wrong-stat">0</div>
+      <div class="label">Wrong</div>
+    </div>
+    <div class="stat-box">
+      <div class="value" id="result-raw-time" style="font-size:1.1rem">0:00</div>
+      <div class="label">Raw Time</div>
+    </div>
+    <div class="stat-box green">
+      <div class="value" id="result-pct">0%</div>
+      <div class="label">Score</div>
+    </div>
+  </div>
+
+  <!-- HOME / SCORES / PLAY AGAIN buttons -->
+  <div class="result-bottom-btns">
+    <button class="rb-btn" onclick="goHome()">HOME</button>
+    <button class="rb-btn" onclick="goHome()">SCORES</button>
+  </div>
+  <button class="replay-btn" onclick="replayGame()">PLAY AGAIN</button>
+
+</div>
+
+<!-- ════════════ SETTINGS ════════════ -->
+<div class="screen" id="screen-settings">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <div class="settings-title">SETTINGS</div>
+
+  <div class="setting-group">
+    <label>QUESTIONS PER WORKOUT</label>
+    <div class="pill-group">
+      <button class="pill-btn" data-q="10"  onclick="setQCount(10)">10</button>
+      <button class="pill-btn active" data-q="20" onclick="setQCount(20)">20</button>
+      <button class="pill-btn" data-q="50"  onclick="setQCount(50)">50</button>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <label>DEFAULT DIFFICULTY</label>
+    <div class="diff-list">
+      <div class="diff-row active" data-sdifficulty="easy"      onclick="setGlobalDifficulty('easy')">EASY</div>
+      <div class="diff-row"        data-sdifficulty="medium"    onclick="setGlobalDifficulty('medium')">MEDIUM</div>
+      <div class="diff-row"        data-sdifficulty="hard"      onclick="setGlobalDifficulty('hard')">HARD</div>
+      <div class="diff-row"        data-sdifficulty="very_hard" onclick="setGlobalDifficulty('very_hard')">VERY HARD</div>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <label>THEME</label>
+    <div class="color-swatches">
+      <div class="swatch active" data-theme="classic"  style="background:#f2f2f2"  onclick="setTheme('classic')"></div>
+      <div class="swatch"        data-theme="pink"     style="background:#faeaea"  onclick="setTheme('pink')"></div>
+      <div class="swatch"        data-theme="mint"     style="background:#e6f7ee"  onclick="setTheme('mint')"></div>
+      <div class="swatch"        data-theme="lavender" style="background:#ede8f9"  onclick="setTheme('lavender')"></div>
+      <div class="swatch"        data-theme="peach"    style="background:#faf0e0"  onclick="setTheme('peach')"></div>
+      <div class="swatch"        data-theme="cream"    style="background:#faf7e8"  onclick="setTheme('cream')"></div>
+      <div class="swatch"        data-theme="sky"      style="background:#e5f2fb"  onclick="setTheme('sky')"></div>
+    </div>
+    <small style="color:#999;font-size:.78rem">Current: <span id="theme-name">Classic</span></small>
+  </div>
+
+  <div class="setting-group" style="padding:0">
+    <div class="toggle-row">
+      <div>
+        <span>Sound Effects</span>
+        <small>Play sounds on correct/wrong</small>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-sound" onchange="STATE.soundOn=this.checked"/>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+</div>
+
+</div><!-- end app-shell -->
+<script src="/static/js/app.js"></script>
+<script>
+// Extra: difficulty helper used by sub-menus
+function setDiff(d, menu) {
+  STATE.difficulty = d;
+  const labels = { easy:'EASY', medium:'MEDIUM', hard:'HARD', very_hard:'VERY HARD' };
+  const label  = labels[d] || 'EASY';
+  const el = document.getElementById(`${menu}-diff-label`);
+  if (el) el.textContent = label;
+  // highlight buttons in that menu's diff-selector
+  const screen = {addsub:'screen-addsub',muldiv:'screen-muldiv',feeling:'screen-feeling',mental:'screen-mental'}[menu];
+  if (screen) {
+    document.querySelectorAll(`#${screen} .diff-btn`).forEach(b => {
+      b.classList.toggle('active', b.textContent.toLowerCase().startsWith(d.split('_')[0]));
+    });
+  }
+}
+// Update theme name display
+const origSetTheme = setTheme;
+setTheme = function(t) {
+  origSetTheme(t);
+  const names={classic:'Classic',pink:'Rose Pink',mint:'Mint Green',lavender:'Lavender',peach:'Peach',cream:'Cream',sky:'Sky Blue'};
+  const el = document.getElementById('theme-name');
+  if (el) el.textContent = names[t]||t;
+};
+</script>
+</body>
+</html>
