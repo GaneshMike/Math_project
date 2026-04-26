@@ -10,7 +10,7 @@ def generate_brain_cruncher(difficulty):
     the full solution breakdown (e.g. 'Multiply by 2 = 18').
     Division is included and always produces a whole-number result.
     """
-    steps_count = {"low": 3, "medium": 4, "high": 5}.get(difficulty, 3)
+    steps_count = {"low": 10, "medium": 20, "high": 50}.get(difficulty, 10)
     hi          = {"low": 10, "medium": 20, "high": 50}.get(difficulty, 10)
 
     start   = random.randint(2, hi)   # start ≥ 2 so division always works
