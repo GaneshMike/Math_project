@@ -111,12 +111,19 @@ function startTimesGame() { startGame('times_table', STATE.difficulty); }
 
 /* ── Brain Cruncher ────────────────────────────── */
 function selectBrainDiff(d) {
-  if (d === 'medium' || d === 'high') return;
   STATE.brainDiff = d;
   document.querySelectorAll('[data-bdiff]').forEach(b =>
     b.classList.toggle('active', b.dataset.bdiff === d));
 }
-function startBrainGame()  { startGame('brain_cruncher', STATE.brainDiff); }
+
+// Brain Cruncher has its OWN question count per difficulty
+// (does NOT use the global Settings count)
+const BRAIN_COUNTS = { low: 5, medium: 10, high: 20 };
+
+function startBrainGame() {
+  const count = BRAIN_COUNTS[STATE.brainDiff] || 5;
+  startGame('brain_cruncher', STATE.brainDiff, count);
+}
 function startMentalGame() { startGame('mental_math', STATE.difficulty); }
 function startBrainAge()   { STATE.currentGame = 'brain_age'; startGame('feeling_clever', 'easy', 10); }
 
