@@ -118,10 +118,10 @@ function selectBrainDiff(d) {
 
 // Brain Cruncher has its OWN question count per difficulty
 // (does NOT use the global Settings count)
-const BRAIN_COUNTS = { low: 10, medium: 20, high: 50 };
+const BRAIN_COUNTS = { low: 10, medium: 20, high: 30 };
 
 function startBrainGame() {
-  const count = BRAIN_COUNTS[STATE.brainDiff] || 5;
+  const count = BRAIN_COUNTS[STATE.brainDiff] || 10;
   startGame('brain_cruncher', STATE.brainDiff, count);
 }
 function startMentalGame() { startGame('mental_math', STATE.difficulty); }
