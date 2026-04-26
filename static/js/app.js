@@ -118,7 +118,7 @@ function selectBrainDiff(d) {
 
 // Brain Cruncher has its OWN question count per difficulty
 // (does NOT use the global Settings count)
-const BRAIN_COUNTS = { low: 5, medium: 10, high: 20 };
+const BRAIN_COUNTS = { low: 10, medium: 20, high: 50 };
 
 function startBrainGame() {
   const count = BRAIN_COUNTS[STATE.brainDiff] || 5;
