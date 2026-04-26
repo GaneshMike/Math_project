@@ -578,9 +578,38 @@ function brainSubmit() {
 }
 
 function reviewBrainCruncher() {
-  // For now just go home; could show the chain review later
-  clearGameState();
-  goHome();
+  const q = STATE.questions[STATE.currentQ];
+  if (!q) { goHome(); return; }
+
+  const opLabel = { '+': 'Add', '-': 'Subtract', '×': 'Multiply by', '÷': 'Divide by' };
+
+  const list = document.getElementById('bc-review-list');
+  if (!list) { goHome(); return; }
+
+  // Build review rows
+  const rows = [];
+
+  // Row 1 – Starting Number
+  rows.push({ text: 'Starting Number', value: q.start, isFinal: false, isStart: true });
+
+  // One row per step
+  q.steps.forEach(s => {
+    const label = opLabel[s.op] || s.op;
+    rows.push({ text: `${label} ${s.num}`, value: s.running_total, isFinal: false, isStart: false });
+  });
+
+  // Final row
+  rows.push({ text: 'Final Answer', value: q.answer, isFinal: true, isStart: false });
+
+  list.innerHTML = rows.map(r => `
+    <div class="bc-review-row ${r.isFinal ? 'bc-review-final' : ''} ${r.isStart ? 'bc-review-start' : ''}">
+      <span class="bc-review-step-text">${r.text}</span>
+      <span class="bc-review-equals"> = </span>
+      <span class="bc-review-total">${r.value}</span>
+    </div>
+  `).join('');
+
+  showScreen('screen-bc-review');
 }
 
 /* ════════════════════════════════════════════════
